@@ -1,0 +1,170 @@
+<?php
+
+namespace FriendsOfBotble\FloatingButtons\Forms\Settings;
+
+use Botble\Base\Forms\FieldOptions\CheckboxFieldOption;
+use Botble\Base\Forms\FieldOptions\RadioFieldOption;
+use Botble\Base\Forms\Fields\HtmlField;
+use Botble\Base\Forms\Fields\OnOffCheckboxField;
+use Botble\Base\Forms\Fields\RadioField;
+use Botble\Base\Forms\Fields\RepeaterField;
+use Botble\Setting\Forms\SettingForm;
+use FriendsOfBotble\FloatingButtons\Http\Requests\Settings\FloatingButtonsSettingRequest;
+
+class FloatingButtonsSettingForm extends SettingForm
+{
+    public function setup(): void
+    {
+        parent::setup();
+
+        $fields = [
+            [
+                'type' => 'text',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.title'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'title',
+                    'value' => null,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'text',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.url'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'url',
+                    'value' => null,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'mediaImage',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.icon_image'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'icon_image',
+                    'value' => null,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'onOff',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.enable_ring_animation'),
+                'attributes' => [
+                    'name' => 'enable_ring_animation',
+                    'value' => true,
+                    'default_value' => false,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'onOff',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.open_in_the_new_tab'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'open_in_the_new_tab',
+                    'value' => true,
+                    'default_value' => false,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'customColor',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.background_color'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'background_color',
+                    'value' => null,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+        ];
+
+        $this
+            ->setSectionTitle(trans('plugins/fob-floating-buttons::fob-floating-buttons.name'))
+            ->setSectionDescription(trans('plugins/fob-floating-buttons::fob-floating-buttons.description'))
+            ->setValidatorClass(FloatingButtonsSettingRequest::class)
+            ->add(
+                'enabled',
+                OnOffCheckboxField::class,
+                CheckboxFieldOption::make()
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.enable'))
+                    ->attributes([
+                        'data-bb-toggle' => 'collapse',
+                        'data-bb-target' => '.floating-buttons-settings',
+                    ])
+                    ->value(setting('fob-floating-buttons.enabled'))
+                    ->toArray()
+            )
+            ->add('open_floating_buttons_settings', HtmlField::class, [
+                'html' => sprintf(
+                    '<fieldset class="floating-buttons-settings form-fieldset"
+                    data-bb-value="1"
+                    style="display: %s"/>',
+                    old('enabled', setting('fob-floating-buttons.enabled')) ? 'block' : 'none',
+                ),
+            ])
+            ->add(
+                'position',
+                RadioField::class,
+                RadioFieldOption::make()
+                    ->choices([
+                        'left' => trans('plugins/fob-floating-buttons::fob-floating-buttons.left'),
+                        'right' => trans('plugins/fob-floating-buttons::fob-floating-buttons.right'),
+                    ])
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.position'))
+                    ->selected(setting('fob-floating-buttons.position', 'left'))
+                    ->toArray()
+            )
+            ->add(
+                'display_on_mobile',
+                RadioField::class,
+                RadioFieldOption::make()
+                    ->choices([
+                        'hide' => trans('plugins/fob-floating-buttons::fob-floating-buttons.hide_on_mobile'),
+                        'collapsed' => trans('plugins/fob-floating-buttons::fob-floating-buttons.collapsed_on_mobile'),
+                    ])
+                    ->selected(setting('fob-floating-buttons.display_on_mobile', 'collapsed'))
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.display_on_mobile'))
+                    ->toArray()
+            )
+            ->add('items', RepeaterField::class, [
+                'fields' => $fields,
+                'value' => $this->getDataItems(),
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.floating_button_items'),
+            ])
+            ->add('close_floating_buttons_settings', HtmlField::class, [
+                'html' => '</fieldset>'
+            ]);
+    }
+
+    protected function getDataItems(): array
+    {
+        $items = json_decode(setting('fob-floating-buttons.items'));
+
+        if (! is_array($items)) {
+            return [];
+        }
+
+        foreach ($items as $i => $item) {
+            foreach ($item as $j => $childItem) {
+                $items[$i][$j] = collect($childItem)->toArray();
+            }
+        }
+
+        return $items;
+    }
+}
