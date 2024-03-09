@@ -10,6 +10,10 @@
             }
 
             .sb-icon {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
                 &:hover {
                     .coccoc-alo-show {
                         display: none;
@@ -54,27 +58,27 @@
     }
 
     .d-block {
-        display: block!important
+        display: block !important
     }
 
     .d-none {
-        display: none!important
+        display: none !important
     }
 
-    @media screen and (max-width: 575px){
+    @media screen and (max-width: 575px) {
         .floating-buttons-collapsed {
             opacity: 0;
             visibility: hidden;
         }
     }
 
-    @media screen and (min-width: 575px){
+    @media screen and (min-width: 575px) {
         .d-sm-block {
-            display: block!important
+            display: block !important
         }
 
         .d-sm-none {
-            display: none!important
+            display: none !important
         }
     }
 
@@ -115,8 +119,10 @@
             -moz-transition: visibility .5s;
             -o-transition: visibility .5s;
             transition: visibility .5s;
-            right: 120px;
-            top: 30px;
+            flex-shrink: 0;
+            position: absolute;
+            top: 0;
+            right: 0;
         }
 
         .coccoc-alo-phone.coccoc-alo-green .coccoc-alo-ph-circle-fill {

@@ -12,15 +12,18 @@ class FloatingButtonsSettingRequest extends Request
     {
         return [
             'enabled' => $onOffRule = new OnOffRule(),
-            'position' => ['required', 'string', Rule::in(['left', 'right'])],
+            'position' => ['required', 'string', Rule::in(['bottom_right', 'bottom_left', 'center_right', 'center_left'])],
             'display_on_mobile' => ['required', 'string', Rule::in(['hide', 'collapsed'])],
+            'offset_x' => ['required', 'integer'],
+            'offset_y' => ['required', 'integer'],
             'items' => ['nullable'],
-            'items.*.0.key' => ['required', 'string'],
-            'items.*.1.value' => ['required', 'string'],
-            'items.*.2.value' => ['required', 'string'],
-            'items.*.3.value' => $onOffRule,
+            'items.*.0.key' => ['nullable', 'string'],
+            'items.*.1.value' => ['nullable', 'string'],
+            'items.*.2.value' => ['nullable', 'string'],
+            'items.*.3.value' => ['nullable', 'string'],
             'items.*.4.value' => $onOffRule,
-            'items.*.5.value' => ['required', 'string'],
+            'items.*.5.value' => $onOffRule,
+            'items.*.6.value' => ['nullable', 'string'],
         ];
     }
 

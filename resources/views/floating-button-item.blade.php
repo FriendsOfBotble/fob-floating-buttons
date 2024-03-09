@@ -2,14 +2,15 @@
     $floatingButton = collect($floatingButton)->pluck('value', 'key');
     $title = $floatingButton->get('title');
     $bgColor = $floatingButton->get('background_color');
-    $enableRingAnimation = $floatingButton->get('enable_ring_animation')
+    $bgColor = $bgColor === 'transparent' ? 'var(--primary-color)' : $bgColor;
+    $enableRingAnimation = $floatingButton->get('enable_ring_animation');
 @endphp
 <li class="sb-{{ Str::slug($title) }} {{ $wrapperClass ?? '' }}"
 
     @style(["--fb-background-color: $bgColor" => $bgColor, "margin-bottom: 20px" => $enableRingAnimation])
 >
-    <a href="{{ $floatingButton->get('url') }}" target="_blank" title="{{ $title }}" class="ring-animation">
-        @if ($image = $floatingButton->get('icon_image'))
+    <a href="{{ $floatingButton->get('url') }}" @if($floatingButton->get('open_in_the_new_tab')) target="_blank" @endif class="ring-animation">
+        @if ($icon = ($floatingButton->get('icon_image') ?: $floatingButton->get('icon')))
             <div class="sb-icon">
                 @if($enableRingAnimation)
                     <div class="coccoc-alo-phone coccoc-alo-green coccoc-alo-show"
@@ -23,7 +24,11 @@
                         <div class="coccoc-alo-ph-circle-fill"></div>
                     </div>
                 @endif
-                {{ RvMedia::image($image, $title, attributes: ['class' => 'sb-icon']) }}
+                @if ($floatingButton->get('icon_image'))
+                    {{ RvMedia::image($icon, $title, attributes: ['class' => 'sb-icon']) }}
+                @else
+                    <x-core::icon :name="$icon" />
+                @endif
             </div>
         @endif
 

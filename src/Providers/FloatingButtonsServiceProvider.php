@@ -29,7 +29,7 @@ class FloatingButtonsServiceProvider extends ServiceProvider
                         'priority' => 9999,
                         'parent_id' => null,
                         'name' => 'plugins/fob-floating-buttons::fob-floating-buttons.name',
-                        'icon' => 'ti ti-list',
+                        'icon' => 'ti ti-social',
                         'url' => fn () => route('fob-floating-buttons.settings'),
                     ]);
 
@@ -44,8 +44,8 @@ class FloatingButtonsServiceProvider extends ServiceProvider
                 Theme::asset()
                     ->container('footer')
                     ->usePath(false)
-                    ->add('fob-velocity-js', asset('vendor/core/plugins/fob-floating-buttons/js/velocity.min.js'),  ['jquery'])
-                    ->add('fob-floating-buttons-default-js', asset('vendor/core/plugins/fob-floating-buttons/js/default.min.js'),  ['jquery'])
+                    ->add('fob-velocity-js', asset('vendor/core/plugins/fob-floating-buttons/js/velocity.min.js'), ['jquery'])
+                    ->add('fob-floating-buttons-default-js', asset('vendor/core/plugins/fob-floating-buttons/js/default.min.js'), ['jquery'])
                     ->add('fob-floating-buttons-js', asset('vendor/core/plugins/fob-floating-buttons/js/fob-floating-buttons.js'), ['jquery']);
 
                 add_filter(THEME_FRONT_FOOTER, function (string|null $data): string|null {

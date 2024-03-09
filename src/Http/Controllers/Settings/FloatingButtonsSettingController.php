@@ -2,12 +2,8 @@
 
 namespace FriendsOfBotble\FloatingButtons\Http\Controllers\Settings;
 
-use Botble\Base\Facades\Assets;
-use Botble\Base\Facades\Form;
 use Botble\Base\Facades\PageTitle;
 use Botble\Base\Http\Controllers\BaseController;
-use Botble\Base\Http\Responses\BaseHttpResponse;
-use Botble\JsValidation\Facades\JsValidator;
 use Botble\Setting\Facades\Setting;
 use FriendsOfBotble\FloatingButtons\Forms\Settings\FloatingButtonsSettingForm;
 use FriendsOfBotble\FloatingButtons\Http\Requests\Settings\FloatingButtonsSettingRequest;
@@ -31,7 +27,7 @@ class FloatingButtonsSettingController extends BaseController
         }
 
         if (Arr::has($data, 'items')) {
-            Setting::set('fob-floating-buttons.items', json_encode(Arr::get($data, 'items', [])));
+            Setting::set('fob-floating-buttons.items', Arr::get($data, 'items', []));
         }
 
         Setting::save();

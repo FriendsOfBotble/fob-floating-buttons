@@ -1,7 +1,5 @@
 @php
     $floatingButtons = setting('fob-floating-buttons.items');
-    $floatingButtons = $floatingButtons ? json_decode($floatingButtons, true) : [];
-    $floatingButtons = is_string($floatingButtons) ? [] : $floatingButtons;
 @endphp
 
 @if(! empty($floatingButtons))
@@ -10,7 +8,9 @@
     @endphp
     <div
         class="floating-buttons"
-        data-position="{{ setting('fob-floating-buttons.position', 'left') }}"
+        data-position="{{ setting('fob-floating-buttons.position', 'bottom_right') }}"
+        data-offset-x="{{ setting('fob-floating-buttons.offset_x', 20) }}"
+        data-offset-y="{{ setting('fob-floating-buttons.offset_y', 100) }}"
     >
         <ul @class(['sb-bar', 'd-none d-sm-block' => setting('fob-floating-buttons.display_on_mobile', 'collapsed') == 'hide'])>
             @if ($collapsedOnMobile)

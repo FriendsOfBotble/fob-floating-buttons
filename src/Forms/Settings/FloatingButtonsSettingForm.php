@@ -3,11 +3,15 @@
 namespace FriendsOfBotble\FloatingButtons\Forms\Settings;
 
 use Botble\Base\Forms\FieldOptions\CheckboxFieldOption;
+use Botble\Base\Forms\FieldOptions\NumberFieldOption;
 use Botble\Base\Forms\FieldOptions\RadioFieldOption;
+use Botble\Base\Forms\FieldOptions\SelectFieldOption;
 use Botble\Base\Forms\Fields\HtmlField;
+use Botble\Base\Forms\Fields\NumberField;
 use Botble\Base\Forms\Fields\OnOffCheckboxField;
 use Botble\Base\Forms\Fields\RadioField;
 use Botble\Base\Forms\Fields\RepeaterField;
+use Botble\Base\Forms\Fields\SelectField;
 use Botble\Setting\Forms\SettingForm;
 use FriendsOfBotble\FloatingButtons\Http\Requests\Settings\FloatingButtonsSettingRequest;
 
@@ -36,6 +40,18 @@ class FloatingButtonsSettingForm extends SettingForm
                 'required' => true,
                 'attributes' => [
                     'name' => 'url',
+                    'value' => null,
+                    'options' => [
+                        'class' => 'form-control',
+                    ],
+                ],
+            ],
+            [
+                'type' => 'coreIcon',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.icon'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'icon',
                     'value' => null,
                     'options' => [
                         'class' => 'form-control',
@@ -119,14 +135,32 @@ class FloatingButtonsSettingForm extends SettingForm
             ])
             ->add(
                 'position',
-                RadioField::class,
-                RadioFieldOption::make()
+                SelectField::class,
+                SelectFieldOption::make()
                     ->choices([
-                        'left' => trans('plugins/fob-floating-buttons::fob-floating-buttons.left'),
-                        'right' => trans('plugins/fob-floating-buttons::fob-floating-buttons.right'),
+                        'bottom_right' => trans('plugins/fob-floating-buttons::fob-floating-buttons.bottom_right'),
+                        'bottom_left' => trans('plugins/fob-floating-buttons::fob-floating-buttons.bottom_left'),
+                        'center_right' => trans('plugins/fob-floating-buttons::fob-floating-buttons.center_right'),
+                        'center_left' => trans('plugins/fob-floating-buttons::fob-floating-buttons.center_left'),
                     ])
                     ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.position'))
-                    ->selected(setting('fob-floating-buttons.position', 'left'))
+                    ->selected(setting('fob-floating-buttons.position', 'bottom_right'))
+                    ->toArray()
+            )
+            ->add(
+                'offset_x',
+                NumberField::class,
+                NumberFieldOption::make()
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.offset_x'))
+                    ->value(setting('fob-floating-buttons.offset_x', 20))
+                    ->toArray()
+            )
+            ->add(
+                'offset_y',
+                NumberField::class,
+                NumberFieldOption::make()
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.offset_y'))
+                    ->value(setting('fob-floating-buttons.offset_y', 30))
                     ->toArray()
             )
             ->add(
@@ -147,13 +181,13 @@ class FloatingButtonsSettingForm extends SettingForm
                 'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.floating_button_items'),
             ])
             ->add('close_floating_buttons_settings', HtmlField::class, [
-                'html' => '</fieldset>'
+                'html' => '</fieldset>',
             ]);
     }
 
     protected function getDataItems(): array
     {
-        $items = json_decode(setting('fob-floating-buttons.items'));
+        $items = setting('fob-floating-buttons.items');
 
         if (! is_array($items)) {
             return [];

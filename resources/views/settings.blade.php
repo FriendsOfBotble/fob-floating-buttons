@@ -27,7 +27,7 @@
                         'right' => trans('plugins/fob-floating-buttons::fob-floating-buttons.right'),
                         'left' => trans('plugins/fob-floating-buttons::fob-floating-buttons.left'),
                     ]"
-                    :value="setting('fob-floating-buttons.position', 'left')"
+                    :value="setting('fob-floating-buttons.position', 'right')"
                 />
 
                 <div class="mb-3">
