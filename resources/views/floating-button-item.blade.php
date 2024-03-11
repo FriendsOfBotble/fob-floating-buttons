@@ -4,12 +4,27 @@
     $bgColor = $floatingButton->get('background_color');
     $bgColor = $bgColor === 'transparent' ? 'var(--primary-color)' : $bgColor;
     $enableRingAnimation = $floatingButton->get('enable_ring_animation');
+    $marginBetween = setting('fob-floating-buttons.margin_between', 0);
+
+    $url = $floatingButton->get('url');
+
+    switch ($floatingButton->get('type')) {
+        case 'phone':
+            $url = 'tel:' . $url;
+            break;
+        case 'email':
+            $url = 'mailto:' . $url;
+            break;
+        case 'whatsapp':
+            $url = 'https://wa.me/' . $url;
+            break;
+    }
 @endphp
 <li class="sb-{{ Str::slug($title) }} {{ $wrapperClass ?? '' }}"
 
-    @style(["--fb-background-color: $bgColor" => $bgColor, "margin-bottom: 20px" => $enableRingAnimation])
+    @style(["--fb-background-color: $bgColor" => $bgColor, "margin: {$marginBetween}px 0" => $marginBetween])
 >
-    <a href="{{ $floatingButton->get('url') }}" @if($floatingButton->get('open_in_the_new_tab')) target="_blank" @endif class="ring-animation">
+    <a href="{{ $url }}" @if($floatingButton->get('open_in_the_new_tab')) target="_blank" @endif class="ring-animation">
         @if ($icon = ($floatingButton->get('icon_image') ?: $floatingButton->get('icon')))
             <div class="sb-icon">
                 @if($enableRingAnimation)

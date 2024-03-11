@@ -16,6 +16,7 @@ return [
     'floating_button_items' => 'Floating button items',
     'offset_x' => 'Offset X',
     'offset_y' => 'Offset Y',
+    'margin_between' => 'Margin between each buttons',
     'form' => [
         'title' => 'Title',
         'url' => 'URL',
@@ -24,5 +25,10 @@ return [
         'enable_ring_animation' => 'Enable ring animation?',
         'icon' => 'Icon',
         'icon_image' => 'Icon image',
+        'type' => 'Type',
+        'custom' => 'Custom',
+        'phone' => 'Phone',
+        'email' => 'Email',
+        'whatsapp' => 'WhatsApp',
     ],
 ];

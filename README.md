@@ -2,15 +2,17 @@
 
 This plugin helps you to create floating buttons on your website.
 
+![Screenshot](https://raw.githubusercontent.com/FriendsOfBotble/fob-floating-buttons/art/screenshot.png)
+
 ## Requirements
 
--   Botble core 7.1.0 or higher.
+-   Botble core 7.2.0 or higher.
 
 ## Installation
 
 ### Install via Admin Panel
 
-Go to the **Admin Panel** and click on the **Plugins** tab. Click on the "Add new" button, find the **Hide Activated License Info** plugin and click on the "Install" button.
+Go to the **Admin Panel** and click on the **Plugins** tab. Click on the "Add new" button, find the **Floating Buttons** plugin and click on the "Install" button.
 
 ### Install manually
 

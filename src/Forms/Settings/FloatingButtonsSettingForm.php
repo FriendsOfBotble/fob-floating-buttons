@@ -54,7 +54,7 @@ class FloatingButtonsSettingForm extends SettingForm
                     'name' => 'icon',
                     'value' => null,
                     'options' => [
-                        'class' => 'form-control',
+                        'class' => 'form-select',
                     ],
                 ],
             ],
@@ -64,10 +64,6 @@ class FloatingButtonsSettingForm extends SettingForm
                 'required' => true,
                 'attributes' => [
                     'name' => 'icon_image',
-                    'value' => null,
-                    'options' => [
-                        'class' => 'form-control',
-                    ],
                 ],
             ],
             [
@@ -75,11 +71,6 @@ class FloatingButtonsSettingForm extends SettingForm
                 'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.enable_ring_animation'),
                 'attributes' => [
                     'name' => 'enable_ring_animation',
-                    'value' => true,
-                    'default_value' => false,
-                    'options' => [
-                        'class' => 'form-control',
-                    ],
                 ],
             ],
             [
@@ -88,11 +79,6 @@ class FloatingButtonsSettingForm extends SettingForm
                 'required' => true,
                 'attributes' => [
                     'name' => 'open_in_the_new_tab',
-                    'value' => true,
-                    'default_value' => false,
-                    'options' => [
-                        'class' => 'form-control',
-                    ],
                 ],
             ],
             [
@@ -101,10 +87,26 @@ class FloatingButtonsSettingForm extends SettingForm
                 'required' => true,
                 'attributes' => [
                     'name' => 'background_color',
+                ],
+            ],
+            [
+                'type' => 'customSelect',
+                'label' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.type'),
+                'required' => true,
+                'attributes' => [
+                    'name' => 'type',
+                    'choices' => [
+                        'custom' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.custom'),
+                        'phone' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.phone'),
+                        'email' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.email'),
+                        'whatsapp' => trans('plugins/fob-floating-buttons::fob-floating-buttons.form.whatsapp'),
+                    ],
                     'value' => null,
                     'options' => [
-                        'class' => 'form-control',
+                        'class' => 'form-select',
                     ],
+                    [],
+                    [],
                 ],
             ],
         ];
@@ -161,6 +163,14 @@ class FloatingButtonsSettingForm extends SettingForm
                 NumberFieldOption::make()
                     ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.offset_y'))
                     ->value(setting('fob-floating-buttons.offset_y', 30))
+                    ->toArray()
+            )
+            ->add(
+                'margin_between',
+                NumberField::class,
+                NumberFieldOption::make()
+                    ->label(trans('plugins/fob-floating-buttons::fob-floating-buttons.margin_between'))
+                    ->value(setting('fob-floating-buttons.margin_between', 0))
                     ->toArray()
             )
             ->add(
