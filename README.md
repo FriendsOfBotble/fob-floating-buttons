@@ -2,7 +2,7 @@
 
 This plugin helps you to create floating buttons on your website.
 
-![Screenshot](https://raw.githubusercontent.com/FriendsOfBotble/fob-floating-buttons/art/screenshot.png)
+![Screenshot](./art/screenshot.png)
 
 ## Requirements
 
