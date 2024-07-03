@@ -8,6 +8,8 @@ Route::prefix(BaseHelper::getAdminPrefix() . '/floating-buttons')
     ->name('fob-floating-buttons.settings')
     ->middleware(['core', 'web', 'auth'])
     ->group(function () {
-        Route::get('/', [FloatingButtonsSettingController::class, 'edit']);
-        Route::put('/', [FloatingButtonsSettingController::class, 'update'])->name('.update');
+        Route::group(['permission' => 'fob-floating-buttons.settings'], function () {
+            Route::get('/', [FloatingButtonsSettingController::class, 'edit']);
+            Route::put('/', [FloatingButtonsSettingController::class, 'update'])->name('.update');
+        });
     });
