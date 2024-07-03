@@ -199,6 +199,10 @@ class FloatingButtonsSettingForm extends SettingForm
     {
         $items = setting('fob-floating-buttons.items');
 
+        if (! empty($items)) {
+            $items = json_decode($items, true);
+        }
+
         if (! is_array($items)) {
             return [];
         }

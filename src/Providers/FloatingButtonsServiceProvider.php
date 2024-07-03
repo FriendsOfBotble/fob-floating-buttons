@@ -19,6 +19,7 @@ class FloatingButtonsServiceProvider extends ServiceProvider
             ->loadAndPublishTranslations()
             ->loadAndPublishViews()
             ->publishAssets()
+            ->loadMigrations()
             ->loadRoutes();
 
         $this->app->booted(callback: function () {
@@ -48,8 +49,18 @@ class FloatingButtonsServiceProvider extends ServiceProvider
                     ->add('fob-floating-buttons-default-js', asset('vendor/core/plugins/fob-floating-buttons/js/default.min.js'), ['jquery'])
                     ->add('fob-floating-buttons-js', asset('vendor/core/plugins/fob-floating-buttons/js/fob-floating-buttons.js'), ['jquery']);
 
-                add_filter(THEME_FRONT_FOOTER, function (string|null $data): string|null {
-                    return $data . view('plugins/fob-floating-buttons::floating-buttons')->render();
+                add_filter(THEME_FRONT_FOOTER, function (?string $data): ?string {
+                    $floatingButtons = setting('fob-floating-buttons.items');
+
+                    if (empty($floatingButtons)) {
+                        return $data;
+                    }
+
+                    $floatingButtons = json_decode($floatingButtons, true);
+
+                    $collapsedOnMobile = setting('fob-floating-buttons.display_on_mobile', 'collapsed') == 'collapsed';
+
+                    return $data . view('plugins/fob-floating-buttons::floating-buttons', compact('floatingButtons', 'collapsedOnMobile'))->render();
                 }, 192);
             }
         });

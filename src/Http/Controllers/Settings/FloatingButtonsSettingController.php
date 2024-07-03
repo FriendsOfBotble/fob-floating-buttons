@@ -27,7 +27,7 @@ class FloatingButtonsSettingController extends BaseController
         }
 
         if (Arr::has($data, 'items')) {
-            Setting::set('fob-floating-buttons.items', Arr::get($data, 'items', []));
+            Setting::set('fob-floating-buttons.items', json_encode(Arr::get($data, 'items', [])));
         }
 
         Setting::save();
