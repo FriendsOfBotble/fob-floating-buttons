@@ -85,7 +85,7 @@ class FloatingButtonsServiceProvider extends ServiceProvider
 
                     $collapsedOnMobile = setting('fob-floating-buttons.display_on_mobile', 'collapsed') == 'collapsed';
 
-                    return $data . view(
+                    return $data.view(
                         'plugins/fob-floating-buttons::floating-buttons',
                         compact('floatingButtons', 'collapsedOnMobile')
                     )->render();
